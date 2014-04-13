@@ -1,0 +1,25 @@
+<?php
+$baseURL = 'http://localhost/socialflikx/';
+$dbName = "socialdb";
+$pageName = 'profile/';
+$tableName = "profile";
+$pageTitle = "My Profile";
+
+include './common/setup.php';
+include_once './common/header.php';
+include_once './common/VCrud.class.php';
+
+//print_r($_SESSION);
+
+//one users stuff
+$user = $db->get_row("select * from user where userId = '".$_SESSION['userId']."'");
+$profile = $db->get_row("select * from profile where userId = '".$_SESSION['userId']."'");
+$personalPosts = $db->get_results("select * from posts where userId = '".$_SESSION['userId']."'");
+$usersGroups = $db->get_results("select * from group_table where ");
+$allGroups = $db->get_results("select * from group_table");
+
+
+include_once './common/footer.php';
+
+
+?>
