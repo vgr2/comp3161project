@@ -12,6 +12,7 @@ class ProcessVCrud {
     function ProcessVCrud($post,$db) {
         $this->vars = $post;
         $this->db = $db;
+        // print_r($this->vars);die();
     }
     function action() {
         switch ($this->vars['submit']) {

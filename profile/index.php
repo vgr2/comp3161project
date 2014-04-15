@@ -10,7 +10,8 @@ include_once '../common/header.php';
 include_once '../common/VCrud.class.php';
 
 //print_r($_SESSION);
-$profile = $db->get_row("select * from profile where userId = '".$_SESSION['userId']."'");
+// $user = userData($_SESSION['login_user']);
+$profile = $db->get_row("select * from profile where userId = '".$user->userId."'");
 
 $priKeyName = 'profileId';
 $priKeyData = $profile->profileId;
@@ -38,13 +39,14 @@ if (isset($_GET[$priKeyName])){
 }
 
 $myProfile = new VCrud($baseURL,$pageName,$dbName,$tableName,$priKeyName,$listColsWanted,$pageTitle,$db,$post,$get,$foreignKeyName,$foreignKeyData,$profile->userId);
+
 if (isset($mode) && $mode == 'edit'){
 	echo '<div class="pull-right"><strong>Edit Mode</strong></div>';
 	$show = $myProfile->generateEditForm($tableName, $priKeyData,  $foreignKeyName,  $baseURL,  $pageName);
 
 } else {
 	$show = $myProfile->viewRow($priKeyData, $foreignKeyName, $tableName);
-	echo '<div class="btn"><a href="index.php?mode=edit">Edit Profile</a></div>';
+	echo '<div class="pull-right"><strong><a href="index.php?mode=edit">Edit Profile</a></strong></div>';
 }
 
 

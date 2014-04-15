@@ -48,7 +48,7 @@ class VCrud {
         $this->priKeyName = $priKeyName;
         $this->foreignKeyName = $foreignKeyName; //$this->getForiegnKeyFieldName($this->getFieldNames($this->tableName)); //*/
         $this->foreignKeyData = $foreignKeyData;
-        $this->dbProcessor = "../../tm1/processForm.php";
+        $this->dbProcessor = "../common/process.php";
         $this->pageTitle = $pageTitle;
         $this->listColsWanted = $listColsWanted;//$this->colsWanted($this->tableName);
         $this->post = $post;
@@ -591,6 +591,7 @@ class VCrud {
         $j=0;
         $metaKeys = array($this->priKeyName,  $this->baseURL.$this->pageName,  $this->tableName,  $this->foreignKeyName, $vars["submitUpdate".$this->tableName."Form"]);
         $metaCount = count($metaKeys);
+        $setString = "";
         foreach ($vars as $key => $value){
             if ($j <= $metaCount){
                 if (!empty($value)){
