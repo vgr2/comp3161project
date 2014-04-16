@@ -33,6 +33,7 @@ $adminrow = mysql_fetch_assoc($adminres);
 // If result matched $myusername and $mypassword, table row must be 1 row
 if($row){
   $_SESSION['login_user'] = $row['username'];
+  $_SESSION['userId'] = $row['userId'];
   // print_r($_SESSION); die();
   header("location: ../dashboard.php");
 } else {

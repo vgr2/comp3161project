@@ -1,5 +1,6 @@
 <?php
 include_once("../common/dbConnection.php");
+include_once '../common/setup.php';
 include_once("../common/header.php");
 ?>
 <h2>Power Search Profile</h2>

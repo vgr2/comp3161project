@@ -1,7 +1,7 @@
 <?php
-  
+session_start();  
 include 'config.php';
-session_start();
+
   
 $myusername=mysql_real_escape_string($_POST['username']); 
 $mypassword=mysql_real_escape_string($_POST['password']); 
@@ -29,12 +29,11 @@ $count=count($row);
 // If result matched $myusername and $mypassword, table row must be 1 row
 if($row)
 {
-	session_register("profile.username");
 	$_SESSION['login_user']= $myusername;
 ?>
 	<script type="text/javascript">alert('SQL Query Works!');</script>
 <?php
-	header('Location: admin.php');
+	header('Location: ../dashboard.php');
 }
 else 
 {

@@ -2,7 +2,7 @@
 
       $dbHostname = "localhost";
       $dbUsername = "root";
-      $dbPassword = "crunch";
+      $dbPassword = "";
       $dbName     = "socialdb";      
        
       //  Make connection to database 

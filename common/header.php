@@ -14,6 +14,7 @@ function state(){
       break;
   }   
 }
+
 // state();
 // var_dump($_SESSION['login_user']);
 // die();
@@ -23,7 +24,7 @@ if (!isset($_SESSION['login_user'])) {
 }
 //one users stuff
 function userData($login_user,$db){
-  return $db->get_row("select * from user where username = '".$login_user."'");
+  return $db->get_row("select userId, username from user where username = '".$login_user."'");
 }
 $user = $db->get_row("select * from user where username = '".$_SESSION['login_user']."'");
 
@@ -66,51 +67,6 @@ return '
 </form>';
 
 }
-function showPanel($name,$item){
-	$v = 	'<div class="panel panel-default">
-	            <div class="panel-heading"><h4>'.$name.'</h4></div>
-	            <div class="panel-body">';
-	$v .= 	        $item;
-	$v .= '		</div>
-			</div>';
-	return $v;
-}
-function showItemsPanel($name,$item,$newItem=null){
-	$v = 	'<div class="panel panel-default">
-	            <div class="panel-heading"><h4>'.$name.' <span class="pull-right">+</span></h4></div>
-	            <div class="panel-body">';
-	            $v .= ($newItem) ? $newItem : "" ;
-	$v .= 	        $item;
-	$v .= '		</div>
-			</div>';
-	return $v;
-}
-function showProfile($profile)
-{
-	$v = '<div class="col-md-4">';
-	$v .= '<p>'.$profile->firstname.' '.$profile->lastname.'</p>';
-	$v .= '<p>'.$profile->status.'</p>';
-	$v .= '<p>'.$profile->email.'</p>';
-	$v .= '<p>'.$profile->dob.'</p>';
-	$v .= '</div>';
-	$v .= '<span class="pull-right"><img src="'.$profile->profile_pic.'" width="100" height="100" /></span>';
-	return $v;
-}
-function relatedData($data)
-{
-	if (isset($data))
-	{
-//		dd($data);
-                $d = '<ul>';
-		foreach ($data as $key => $value) {
-			$d .= '<li>'.$key.': '.$value.'</li>';
-		}
-		$d .= '</ul>';
-		
-		return $d;
-	}
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -197,7 +153,7 @@ function relatedData($data)
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-toggle"></span>
       </button>
-      <a class="navbar-brand" href="#">Control Panel</a>
+      <a class="navbar-brand" href="/socialflikx/dashboard.php">SocialFlikx</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
@@ -206,7 +162,7 @@ function relatedData($data)
           <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
             <i class="glyphicon glyphicon-user"></i> <?php echo $_SESSION['login_user'];?> <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
-            <li><a href="#">My Profile</a></li>
+              <li><a href="/socialflikx/profile/">My Profile</a></li>
             <li><a href="/socialflikx/flikx/logout.php"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
           </ul>
         </li>
@@ -242,6 +198,3 @@ function relatedData($data)
       
     </div><!-- /span-3 -->
     <div class="col-md-9">
-        
-      <!-- column 2 --> 
-

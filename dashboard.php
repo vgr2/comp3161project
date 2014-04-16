@@ -27,10 +27,11 @@ $usersGroups = $db->get_results("select * from group_table where userId = '".$us
 // dd($usersGroups);
 $groupsUserIn = $db->get_results("SELECT group_table.group_name FROM group_table JOIN group_members ON group_table.g_id = group_members.g_id WHERE group_members.userID = '".$user->userId."'");
 // dd($groupsUserIn);
-$allGroups = $db->get_results("select * from group_table");
+$otherGroups = $db->get_results("select * from group_table");
 // dd($allGroups);
 //variable  for storing all existing friends
-$friends = $db->get_results("select userId,firstname, lastname from profile join friends_of on profile.userId = friends_of.friends_owner where friends_of.friends_owner = '".$user->userId."'");
+$friends = $db->get_results("select userId, firstname, lastname from profile join friends_of on profile.userId = friends_of.friend where friends_of.friend = (select friend from friends_of where friends_owner = '".$user->userId."')");
+//$db->vardump();
 // dd($friends);
 
 ?>
@@ -47,13 +48,13 @@ $friends = $db->get_results("select userId,firstname, lastname from profile join
 		</div>
 		<div class="col-md-5">
 		<?php
-		echo showItemsPanel('My Groups', relatedData( $usersGroups ));
+		echo showItemsPanel('My Groups', showMyGroups($usersGroups));
 		echo "<hr>";
-		echo showItemsPanel('Joined Groups', relatedData($groupsUserIn));
+		echo showItemsPanel('Joined Groups', groupsUserIn($groupsUserIn));
 		echo "<hr>";
-		echo showItemsPanel('All Groups', relatedData($allGroups));
+		echo showItemsPanel('Other Groups', allGroups($otherGroups));
 		echo "<hr>";
-		echo showItemsPanel('My Friends', relatedData($friends));
+		echo showItemsPanel('My Friends', friends($friends));
 		echo "<hr>";
 		?>	
 		</div>
@@ -82,11 +83,109 @@ function isAdmin($username){
 	
 }
 
+function showPanel($name,$item){
+	$v = 	'<div class="panel panel-default">
+	            <div class="panel-heading"><h4>'.$name.'</h4></div>
+	            <div class="panel-body">';
+	$v .= 	        $item;
+	$v .= '		</div>
+			</div>';
+	return $v;
+}
+function showItemsPanel($name,$item,$newItem=null){
+	$v = 	'<div class="panel panel-default">
+	            <div class="panel-heading"><h4>'.$name.'</h4></div>
+	            <div class="panel-body" style="max-height:150px; overflow:auto;">';
+	            $v .= ($newItem) ? $newItem."<hr>" : "" ;
+//                    $v .= "<hr>";
+	$v .= 	        $item;
+	$v .= '     </div>
+		</div>';
+	return $v;
+}
+function showProfile($profile)
+{
+	$v = '<div class="col-md-4">';
+	$v .= '<p>'.$profile->firstname.' '.$profile->lastname.'</p>';
+	$v .= '<p>'.$profile->status.'</p>';
+	$v .= '<p>'.$profile->email.'</p>';
+	$v .= '<p>'.$profile->dob.'</p>';
+	$v .= '</div>';
+	$v .= '<span class="pull-right"><img src="'.$profile->profile_pic.'" width="100" height="100" /></span>';
+	return $v;
+}
+function relatedData($data)
+{
+	if (isset($data))
+	{
+//		dd($data);
+                $d = '<ul>';
+		foreach ($data as $key => $value) {
+//			$d .= '<div>'.$key.': '.$value.'</div>';
+		}
+		$d .= '</ul>';
+		
+		return $d;
+	}
+}
+
+
+
 function showPersonalPosts($personalPosts){
-    $p ="<hr>";
-    foreach ($personalPosts as $post) {
-        $p .= '<span><strong><a href="">'.$post->title.'</a></strong></span>'.' <span class="pull-right">'.$post->date_created.'</span>';
+    $p = '<div class="pull-right">+</div>';
+    if (isset($personalPosts)){
+        foreach ($personalPosts as $post) {
+            $p .= '<div style="width:94%;"><span><strong><a href="">'.$post->title.'</a></strong></span>'.' <span class="pull-right">'.$post->date_created.'</span></div>';
+        }
+    } else {
+        $p.= "<div>No posts, yet...</div>";
     }
     return $p;
 }
+
+function showMyGroups($myGroups){
+    $p = '<div class="pull-right"><a href="group_table/enterNewGroup_table.php">+</a></div>';
+    if (isset($myGroups)){
+        foreach ($myGroups as $group) {
+            $p .= '<div style="width:94%;"><span>'.$group->group_name.'</span><span class="pull-right"> '.$group->date_created.' </span></div>';
+        }
+    } else {
+        $p.= "No groups, yet...";
+    }
+    return $p;
+}
+function groupsUserIn($param) {
+    $p = '<div class="pull-right">+</div>';
+    if (isset($param)){
+        foreach ($param as $group) {
+            $p .= '<div style="width:95%;"><span>'.$group->group_name.'</span><span class="pull-right"> '.$group->date_created.' </span></div>';
+        }
+    } else {
+        $p .= "Haven't joined any groups, yet..";
+    }
+    return $p;
+}
+function allGroups($param) {
+    $p = "";//'<span class="pull-right">[ <a href="group_table/enterNewGroup_table.php">+</a> ]</span>';
+    if (isset($param)){
+        foreach ($param as $group) {
+            $p .= '<div style="width:94%;"><span>'.$group->group_name.'</span><span class="pull-right"> <a href="group_members/insertNewGroup_members.php?thisUserIdField='.$user->userId.'&thisDate_addedField='.  date("Y-m-d").'">Join</a> </span></div>';
+        }
+    } else {
+        $p .= "Haven't joined any groups, yet..";
+    }
+    return $p;
+}
+function friends($param) {
+    $p = '<div class="pull-right"><a href="profile/searchProfileForm.php">+</a></div>';
+    if (isset($param)){
+        foreach ($param as $friend) {
+            $p .= '<div style="width:95%;"><span><a href="">'.$friend->firstname.' '.$friend->lastname.'</a></span><span class="pull-right"></span></div>';
+        }
+    } else {
+        $p .= "Haven't added any friends, yet..";
+    }
+    return $p;
+}
+
 ?>

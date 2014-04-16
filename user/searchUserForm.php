@@ -1,8 +1,9 @@
 <?php
 include_once("../common/dbConnection.php");
+include_once ('../common/setup.php');
 include_once("../common/header.php");
 ?>
-<h2>Power Search User</h2>
+<h2>Search Users</h2>
 The power search will search every field in the  User table, for a match to your keyword. The power searches entire strings or parts of your string. <br><br>
 <form name="userPowerSearchForm" method="POST" action="searchUser.php">
 <table cellspacing="2" cellpadding="2" border="0" width="500">
@@ -12,7 +13,7 @@ The power search will search every field in the  User table, for a match to your
 </tr>
 <tr>
 <td> &nbsp;    </td>
-<td>The power search will search every field in the </td>
+<td>Friend search</td>
 </tr>
 </table>
 <input type="submit" name="submitpowerSearchUserForm" value="Power search  User">
