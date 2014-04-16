@@ -166,6 +166,7 @@ function groupsUserIn($param) {
     return $p;
 }
 function allGroups($param) {
+    global $user;
     $p = "";//'<span class="pull-right">[ <a href="group_table/enterNewGroup_table.php">+</a> ]</span>';
     if (isset($param)){
         foreach ($param as $group) {
