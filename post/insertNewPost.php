@@ -16,5 +16,5 @@ include_once '../common/setup.php';
 $sql = "INSERT INTO post (postId , userId , title , post_type , image_path , text_body , date_created ) VALUES ('$thisPostId' , '$thisUserId' , '$thisTitle' , '$thisPost_type' , '$thisImage_path' , '$thisText_body' , '$thisDate_created' )";
 $result = $db->query($sql);
 
-header("Location: ../dashboard.php");
+header("Location: ../index.php");
 ?>

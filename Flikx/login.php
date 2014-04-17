@@ -28,14 +28,14 @@ $adminrow = mysql_fetch_assoc($adminres);
 //   // session_register("profile");
 //   $_SESSION['login_user'] = $row['username'];
 //   $_SESSION['userId'] = $row['userId'];
-//   header("location: ".$baseURL."../dashboard.php");
+//   header("location: ".$baseURL."../index.php");
 // } else 
 // If result matched $myusername and $mypassword, table row must be 1 row
 if($row){
   $_SESSION['login_user'] = $row['username'];
   $_SESSION['userId'] = $row['userId'];
   // print_r($_SESSION); die();
-  header("location: ../dashboard.php");
+  header("location: ../index.php");
 } else {
   $error="Your Login Name or Password is invalid.";
   header("location: index.php?error=".$error);

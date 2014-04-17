@@ -33,7 +33,7 @@ if($row)
 ?>
 	<script type="text/javascript">alert('SQL Query Works!');</script>
 <?php
-	header('Location: ../dashboard.php');
+	header('Location: ../index.php');
 }
 else 
 {

@@ -13,7 +13,7 @@ include_once("../common/dbConnection.php");
 <?php 
 $sqlQuery = "INSERT INTO group_table ( userId , group_name , date_created ) VALUES ( '$thisUserId' , '$thisGroup_name' , '$thisDate_created' )";
 $result = $db->query($sqlQuery);
-header("location: ../dashboard.php");
+header("location: ../index.php");
 exit();
 ?>
 A new record has been inserted in the database. Here is the information that has been inserted :- <br><br>

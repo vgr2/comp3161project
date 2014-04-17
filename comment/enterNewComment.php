@@ -20,7 +20,7 @@ include_once("../common/header.php");
 	</tr>
 	<tr valign="top" height="20">
 		<td align="right"> <b> Content :  </b> </td>
-		<td> <input type="text" name="thisContentField" size="20" value="">  </td> 
+		<td> <textarea name="thisContentField"> </textarea>  </td> 
 	</tr>
 	<tr valign="top" height="20">
 		<td align="right"> <b> Date_commented :  </b> </td>

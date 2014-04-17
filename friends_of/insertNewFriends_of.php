@@ -12,7 +12,7 @@ include_once '../common/setup.php';
 $sqlQuery = "INSERT INTO friends_of (friends_owner , friend ) VALUES ( '$thisFriends_owner' , '$thisFriend' )";
 $result = $db->query($sqlQuery); 
 
-header("Location: ../dashboard.php");
+header("Location: ../index.php");
 exit();?>
 
 <?php

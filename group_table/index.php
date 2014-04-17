@@ -3,7 +3,7 @@ $baseURL = '';
 $dbName = "socialdb";
 $pageName = '';
 $tableName = "group_table";
-$pageTitle = "My GRoups";
+$pageTitle = "My Groups";
 
 include '../common/setup.php';
 include_once '../common/header.php';
@@ -23,7 +23,9 @@ $post = $_POST;
 $get = $_GET;
 if (isset($_POST['mode'])){
     $mode = $db->escape($_POST['mode']);
-}else {
+}else if (isset($_GET['mode'])){
+    $mode = $db->escape($_GET['mode']);
+} else {
     $mode = "";
 }
 if (isset($_POST[$priKeyName])){
@@ -41,8 +43,8 @@ if (isset($_GET[$priKeyName])){
 
 $myGroups = new VCrud($baseURL,$pageName,$dbName,$tableName,$priKeyName,$listColsWanted,$pageTitle,$db,$post,$get,$foreignKeyName,$foreignKeyData,$profile->userId);
 
-$myGroups->selectMode($mode, $id);
-if (isset($mode)){
+echo $myGroups->selectMode($mode, $id);
+/*if (isset($mode)){
 	switch ($mode) {
 	  case 'add':
   		echo '<div class="pull-right"><strong>Edit Mode</strong></div>';
@@ -69,13 +71,13 @@ if (isset($mode)){
 	}
 }
 
-
+*/
 ?>
-<a href="#"><strong><i class="glyphicon glyphicon-th-list"></i> My Profile</strong></a>  
+<a href="#"><strong><i class="glyphicon glyphicon-th-list"></i> My Groups</strong></a>  
 	<div class="row">
         <!-- center left-->	
       	<div class="col-md-7">
-      		<?php echo $show; ?>
+      		<?php // echo $show; ?>
       		
       	</div>
      </div>

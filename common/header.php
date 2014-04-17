@@ -27,23 +27,19 @@ function userData($login_user,$db){
   return $db->get_row("select userId, username from user where username = '".$login_user."'");
 }
 $user = $db->get_row("select * from user where username = '".$_SESSION['login_user']."'");
+function isAdmin($userId){
+    global $db;
+    return $db->get_var("select count(*) from admin where userId = '$userId' limit 1");
+}
 
 userData($_SESSION['login_user'],$db);
 
 // dd($user);
-$profile = $db->get_row("select * from profile where userId = '".$user->userId."'");
-// dd($profile);
-$personalPosts = $db->get_results("select * from post where userId = '".$user->userId."' order by date_created");
-// dd($personalPosts7;
-$usersGroups = $db->get_results("select * from group_table where userId = '".$user->userId."'");
-// dd($usersGroups);
-$groupsUserIn = $db->get_results("SELECT group_table.group_name FROM group_table JOIN group_members ON group_table.g_id = group_members.g_id WHERE group_members.userID = '".$user->userId."'");
-// dd($groupsUserIn);
-$allGroups = $db->get_results("select * from group_table");
-// dd($allGroups);
-//variable  for storing all existing friends
-$friends = $db->get_results("select userId,firstname, lastname from profile join friends_of on profile.userId = friends_of.friends_owner where friends_of.friends_owner = '".$user->userId."'");
-// dd($friends);
+
+//print_r($_SESSION);
+$user = $db->get_row("select * from user where username = '".$_SESSION['login_user']."'");
+
+
 function dd($var){
 	echo "<pre>";print_r($var);echo "</pre>";	
 	die();
@@ -153,7 +149,7 @@ return '
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-toggle"></span>
       </button>
-      <a class="navbar-brand" href="/socialflikx/dashboard.php">SocialFlikx</a>
+      <a class="navbar-brand" href="/socialflikx/index.php">SocialFlikx</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
@@ -178,17 +174,15 @@ return '
   <div class="row">
   <div class="col-md-3">
       <!-- left -->
-      <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
-
+      <?php if (isAdmin($user->userId)) { ?>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#"><i class="glyphicon glyphicon-flash"></i> Manage Users</a></li>
-        <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+        <li><a href="/socialflikx/user/listUser.php"><i class="glyphicon glyphicon-flash"></i> Manage Users</a></li>
       </ul>
       <hr>
+      <?php } ?>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="/socialflikx/profile/"><i class="glyphicon glyphicon-th-list"></i> My Profile</a></li>
-        <li><a href="/socialflikx/post/"><i class="glyphicon glyphicon-pencil"></i> My Posts</a></li>
-        <li><a href="/socialflikx/groups/"><i class="glyphicon glyphicon-link"></i> My Groups</a></li>
+        <!--<li><a href="/socialflikx/post/"><i class="glyphicon glyphicon-pencil"></i> My Posts</a></li>-->
         <!-- <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
         <li><a href="#"><i class="glyphicon glyphicon-time"></i> Real-time</a></li>
         <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Advanced..</a></li> -->

@@ -1,19 +1,20 @@
 <?php
 include_once("../common/dbConnection.php");
-include_once("../common/header.php");
+include_once("../common/setup.php");
 ?>
 <?php
 	// Retreiving Form Elements from Form
-	$thisCommentId = addslashes($_REQUEST['thisCommentIdField']);
 	$thisPostId = addslashes($_REQUEST['thisPostIdField']);
 	$thisUserId = addslashes($_REQUEST['thisUserIdField']);
 	$thisContent = addslashes($_REQUEST['thisContentField']);
 	$thisDate_commented = addslashes($_REQUEST['thisDate_commentedField']);
+        $refpage = htmlentities($_REQUEST['refpage']);
 
 ?>
 <?php 
-$sqlQuery = "INSERT INTO comment (commentId , postId , userId , content , date_commented ) VALUES ('$thisCommentId' , '$thisPostId' , '$thisUserId' , '$thisContent' , '$thisDate_commented' )";
-$result = MYSQL_QUERY($sqlQuery);
+$sqlQuery = "insert into comment ( postId , userId , content , date_commented ) values ( '$thisPostId' , '$thisUserId' , '$thisContent' , '$thisDate_commented' )";
+$result = $db->query($sqlQuery);
+header("Location: ".$refpage);//../index.php");
 
 ?>
 A new record has been inserted in the database. Here is the information that has been inserted :- <br><br>

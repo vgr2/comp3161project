@@ -1,15 +1,22 @@
 <?php
 include_once("../common/dbConnection.php");
+include_once '../common/setup.php';
 include_once("../common/header.php");
 ?>
 <?php 
+
+
 $initStartLimit = 0;
 $limitPerPage = 10;
 
-$startLimit = $_REQUEST['startLimit'];
-$numberOfRows = $_REQUEST['rows'];
-$sortBy = $_REQUEST['sortBy'];
-$sortOrder = $_REQUEST['sortOrder'];
+if (isset($_REQUEST['startLimit'])){$startLimit = mysql_real_escape_string($_REQUEST['startLimit']);}  else {
+    $startLimit = "";
+}
+if (isset($_REQUEST['rows'])){$numberOfRows = $_REQUEST['rows'];} else {$numberOfRows ="";}
+if (isset($_REQUEST['sortBy'])){$sortBy = $_REQUEST['sortBy'];} else {
+    $sortBy = "";
+}
+if (isset($_REQUEST['sortOrder'])){$sortOrder = $_REQUEST['sortOrder'];} else {$sortOrder = "";}
 
 if ($startLimit=="")
 {
@@ -33,6 +40,8 @@ $previousStartLimit = $startLimit - $limitPerPage;
 if ($sortBy!="")
 {
 		$orderByQuery = " ORDER BY ".$sortBy." ".$sortOrder;
+} else {
+    $orderByQuery = "";
 }
 
 
@@ -58,7 +67,7 @@ else if ($numberOfRows>0) {
 
 <br>
 <?php 
-if ($_REQUEST['startLimit'] != "")
+if ($startLimit != "")
 {
 ?>
 
@@ -75,20 +84,11 @@ if ($numberOfRows == $limitPerPage)
 <TABLE CELLSPACING="0" CELLPADDING="3" BORDER="0" WIDTH="100%">
 	<TR>
 		<TD>
-			<a href="<?php echo $PHP_SELF; ?>?sortBy=userId&sortOrder=<?php echo $newSortOrder; ?>&startLimit=<?php echo $startLimit; ?>&rows=<?php echo $limitPerPage; ?>">
-				<B>UserId</B>
-			</a>
-</TD>
-		<TD>
 			<a href="<?php echo $PHP_SELF; ?>?sortBy=username&sortOrder=<?php echo $newSortOrder; ?>&startLimit=<?php echo $startLimit; ?>&rows=<?php echo $limitPerPage; ?>">
 				<B>Username</B>
 			</a>
 </TD>
-		<TD>
-			<a href="<?php echo $PHP_SELF; ?>?sortBy=password&sortOrder=<?php echo $newSortOrder; ?>&startLimit=<?php echo $startLimit; ?>&rows=<?php echo $limitPerPage; ?>">
-				<B>Password</B>
-			</a>
-</TD>
+		
 	</TR>
 <?php 
 	while ($i<$numberOfRows)
@@ -98,14 +98,11 @@ if ($numberOfRows == $limitPerPage)
 
 	$thisUserId = MYSQL_RESULT($result,$i,"userId");
 	$thisUsername = MYSQL_RESULT($result,$i,"username");
-	$thisPassword = MYSQL_RESULT($result,$i,"password");
-
+	
 ?>
 	<TR BGCOLOR="<?php echo $bgColor; ?>">
-		<TD><?php echo $thisUserId; ?></TD>
-		<TD><?php echo $thisUsername; ?></TD>
-		<TD><?php echo $thisPassword; ?></TD>
-	<TD><a href="editUser.php?userIdField=<?php echo $thisUserId; ?>">Edit</a></TD>
+            <TD><a href="viewUser.php?userIdField=<?php echo $thisUserId; ?>"> <?php echo $thisUsername; ?></a></TD>
+	<!--<TD><a href="editUser.php?userIdField=<?php echo $thisUserId; ?>">Edit</a></TD>-->
 	<TD><a href="confirmDeleteUser.php?userIdField=<?php echo $thisUserId; ?>">Delete</a></TD>
 	</TR>
 <?php 
@@ -118,7 +115,7 @@ if ($numberOfRows == $limitPerPage)
 
 <br>
 <?php 
-if ($_REQUEST['startLimit'] != "")
+if ($startLimit != "")
 {
 ?>
 

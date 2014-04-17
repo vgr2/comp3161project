@@ -5,16 +5,17 @@ include_once '../common/setup.php';
 ?>
 <?php
     // Retreiving Form Elements from Form
+    $thisGroupId = mysql_real_escape_string($_REQUEST['thisGroupIdField']);
     $thisUserId = mysql_real_escape_string($_REQUEST['thisUserIdField']);
     $thisDate_added = mysql_real_escape_string($_REQUEST['thisDate_addedField']);
 
 ?>
 <?php 
-$sqlQuery = "INSERT INTO group_members (userId , date_added ) VALUES ( '$thisUserId' , '$thisDate_added' )";
+$sqlQuery = "INSERT INTO group_members (g_id, userId , date_added ) VALUES ('$thisGroupId', '$thisUserId' , '$thisDate_added' )";
 $result = $db->query($sqlQuery);
-$db->vardump($result);
-//header("Location: ../dashboard.php");
-exit();
+//$db->vardump($result);
+header("Location: ../index.php");
+//exit();
 ?>
 
 <?php
